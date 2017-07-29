@@ -5,11 +5,24 @@ using UnityEngine.AI;
 
 public class Map : MonoBehaviour {
 
-	public int size;
-	public int scale=1;
-	public PerlinNoise2 noise;
+	public Tile[,] grid;
+
+	[Header("Terrain")]
+	PerlinNoise2 noise;
+	public int terrainSize;
+	public int tileScale=1;
+	public float terrainDensity;
+	public float terrainElevation;
+	public float terrainAmplitude;
+	public Gradient terrainColorGradient;
 	public GameObject navMeshObj;
 
+	[Header("Power")]
+	public float powerDensity;
+	public float powerConcentration;
+	public List<Tile> tilesByPower;
+
+	[Header("Prefabs")]
 	//prefabs
 	public GameObject grassPrefab;
 
@@ -20,19 +33,60 @@ public class Map : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		noise = new PerlinNoise2();
-		float startPoint = (-size*scale / 2)-scale;
-		for(int x = 0;x < size* scale;x+=scale) {
-			for(int z = 0;z < size* scale;z += scale) {
-				float height=noise.FractalNoise2D(x,z,2,10,2); //x, y, oct, freq, amp
-				GameObject obj= Instantiate(grassPrefab,new Vector3(startPoint+x + scale,height-(scale*10/2)+0.1f,startPoint+z + scale),Quaternion.identity);
-				obj.transform.localScale = new Vector3(scale,scale*10,scale);
-			}
-		}
-		navMeshObj.GetComponent<NavMeshSurface>().BuildNavMesh();
+		tilesByPower = new List<Tile>();
+		GenerateTerrain();
+		GeneratePowerNodes();
+
+		Global.gameManager.TerrainDoneCallback();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
+	}
+
+	void GenerateTerrain() {
+		grid = new Tile[terrainSize,terrainSize];
+
+		float startPoint = (-terrainSize*tileScale / 2)-tileScale;
+
+		for(int x = 0;x < terrainSize;x++) {
+			for(int z = 0;z < terrainSize;z ++) {
+
+				float height=noise.FractalNoise2D(x,z,3,terrainDensity,terrainAmplitude) +terrainElevation; //x, y, oct, freq, amp
+
+				GameObject obj= Instantiate(grassPrefab,new Vector3(startPoint+x*tileScale + tileScale,height-(tileScale*terrainAmplitude/2),startPoint+z*tileScale + tileScale),Quaternion.identity, transform);
+				obj.transform.localScale = new Vector3(tileScale,tileScale* terrainAmplitude,tileScale);
+				//obj.GetComponent<Renderer>().material.SetColor("_Color",height<0? Color.white : terrainColorGradient.Evaluate(height/2));
+				obj.GetComponent<Renderer>().material.color=height < 0 ? Color.white : terrainColorGradient.Evaluate(height / 2);
+				grid[x,z] = obj.AddComponent<Tile>();
+			}
+		}
+		navMeshObj.GetComponent<NavMeshSurface>().BuildNavMesh();
+	}
+
+	void GeneratePowerNodes() {
+		for(int x = 0;x < terrainSize;x++) {
+			for(int z = 0;z < terrainSize;z++) {
+
+				float powerValue = noise.FractalNoise2D(x, z, 3, powerDensity, powerConcentration); //x, y, oct, freq, amp
+
+				if(powerValue < 0) { //negative power doesn't make sense
+					powerValue = 0;
+				}
+
+				grid[x,z].power = powerValue;
+				tilesByPower.Add(grid[x,z]);
+			}
+		}
+		//@Do I need to sort?? Probably do...I guess
+		tilesByPower.Sort((t1,t2) =>
+		{
+			if(t1.power > t2.power)
+				return -1;
+			else
+				return 1;
+		}
+		);
 	}
 }
