@@ -1,0 +1,3 @@
+﻿Strategy game where you use power to create units, but your power drains constantly. You gain power back by killing enemies.
+
+Survival game where you need to gather "power" 
