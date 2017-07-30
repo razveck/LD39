@@ -4,9 +4,9 @@ using UnityEngine;
 
 public static class Global {
 
-	public static GameManager gameManager;
 	public static Map map;
-	public static PowerManager powerManager;
+	public static Player player;
+	public static GameManager gameManager;
 	public static NatureManager natureManager;
 
 }

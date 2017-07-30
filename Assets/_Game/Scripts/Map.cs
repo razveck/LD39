@@ -25,6 +25,7 @@ public class Map : MonoBehaviour {
 	[Header("Prefabs")]
 	//prefabs
 	public GameObject grassPrefab;
+	public GameObject castlePrefab;
 
 	void Awake() {
 		Global.map = this;
@@ -35,6 +36,11 @@ public class Map : MonoBehaviour {
 		noise = new PerlinNoise2();
 		tilesByPower = new List<Tile>();
 		GenerateTerrain();
+		RaycastHit hit;
+		if(Physics.Raycast(new Vector3(0,100,0),Vector3.down,out hit)) {
+			GameObject obj = Instantiate(castlePrefab,hit.point,Quaternion.identity);
+		}
+		navMeshObj.GetComponent<NavMeshSurface>().BuildNavMesh();
 		GeneratePowerNodes();
 
 		Global.gameManager.TerrainDoneCallback();
@@ -59,17 +65,16 @@ public class Map : MonoBehaviour {
 				obj.transform.localScale = new Vector3(tileScale,tileScale* terrainAmplitude,tileScale);
 				//obj.GetComponent<Renderer>().material.SetColor("_Color",height<0? Color.white : terrainColorGradient.Evaluate(height/2));
 				obj.GetComponent<Renderer>().material.color=height < 0 ? Color.white : terrainColorGradient.Evaluate(height / 2);
-				grid[x,z] = obj.AddComponent<Tile>();
+				grid[x,z] = obj.GetComponent<Tile>();
 			}
 		}
-		navMeshObj.GetComponent<NavMeshSurface>().BuildNavMesh();
 	}
 
 	void GeneratePowerNodes() {
 		for(int x = 0;x < terrainSize;x++) {
 			for(int z = 0;z < terrainSize;z++) {
 
-				float powerValue = noise.FractalNoise2D(x, z, 3, powerDensity, powerConcentration); //x, y, oct, freq, amp
+				float powerValue = noise.FractalNoise2D(x, z, 3, powerDensity, powerConcentration)+1; //x, y, oct, freq, amp
 
 				if(powerValue < 0) { //negative power doesn't make sense
 					powerValue = 0;
