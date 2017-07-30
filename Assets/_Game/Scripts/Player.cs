@@ -9,7 +9,9 @@ public class Player : MonoBehaviour {
 
 
 	//prefabs	
-	public GameObject minionPrefab;
+	public GameObject minionDrainClosestPrefab;
+	public GameObject minionDrainHighestPrefab;
+	public GameObject minionPatrolPrefab;
 
 	void Awake() {
 		Global.player = this;
@@ -27,7 +29,13 @@ public class Player : MonoBehaviour {
 
 		//input
 		if(Input.GetKeyDown("1")) {
-			Instantiate(minionPrefab,Global.map.mapCenter, Quaternion.identity);
+			Instantiate(minionDrainClosestPrefab,Global.map.mapCenter, Quaternion.identity);
+		}
+		if(Input.GetKeyDown("2")) {
+			Instantiate(minionDrainHighestPrefab,Global.map.mapCenter,Quaternion.identity);
+		}
+		if(Input.GetKeyDown("3")) {
+			Instantiate(minionPatrolPrefab,Global.map.mapCenter,Quaternion.identity);
 		}
 	}
 }

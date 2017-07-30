@@ -13,4 +13,8 @@ public class MinionActions : AIActions {
 			return false;
 		else return true;
 	}
+
+	protected override void Attack(GameObject target) {
+		Destroy(target);
+	}
 }

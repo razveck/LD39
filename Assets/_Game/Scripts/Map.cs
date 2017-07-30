@@ -37,9 +37,14 @@ public class Map : MonoBehaviour {
 		noise = new PerlinNoise2();
 		tilesByPower = new List<Tile>();
 		GenerateTerrain();
-		GameObject obj = Instantiate(castlePrefab, mapCenter, Quaternion.identity);
+		Instantiate(castlePrefab, mapCenter, Quaternion.identity);
 		navMeshObj.GetComponent<NavMeshSurface>().BuildNavMesh();
 		GeneratePowerNodes();
+		for(int x = 0;x < 5;x++) {
+			for(int z = 0;z < 5;z++) {
+				grid[terrainSize/2-2+x,terrainSize / 2 - 2+z].ChangePower(-10);
+			}
+		}
 
 		Global.gameManager.TerrainDoneCallback();
 	}

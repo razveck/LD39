@@ -6,7 +6,7 @@ public class NatureManager : MonoBehaviour {
 
 	public float powerThreshhold;
 	public float spawnCooldown;
-	float spawnTimer;
+	public float spawnTimer;
 
 	public GameObject heroPrefab;
 
@@ -29,7 +29,7 @@ public class NatureManager : MonoBehaviour {
 		int z = Random.Range(0f,1f) == 0 ? 0 : size - 1;
 		Vector3 pos = Global.map.grid[x,z].transform.position;
 		GameObject obj=Instantiate(heroPrefab,pos,Quaternion.identity);
-		//obj.GetComponent<UnityEngine.AI.NavMeshAgent>().nextPosition = obj.transform.position;
+		obj.GetComponent<UnityEngine.AI.NavMeshAgent>().nextPosition = obj.transform.position;
 	
 	}
 }

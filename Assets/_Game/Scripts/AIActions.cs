@@ -38,12 +38,14 @@ public class AIActions : MonoBehaviour {
 		} else {
 			getDest=LookForPower;
 			arrived = DrainerArrived;
+			
 		}
+		getDest();
 	}
 
 	// Update is called once per frame
 	protected void Update() {
-		if(agent.pathPending)
+		if(agent.pathPending || agent.path.status!=NavMeshPathStatus.PathComplete)
 			return;
 
 		if(target == null) {
@@ -56,7 +58,7 @@ public class AIActions : MonoBehaviour {
 		if(canMove == false)
 			return;
 
-		if(agent.remainingDistance < 0.5f) {
+		if(agent.remainingDistance < 0.01f) {
 			arrived();
 		}
 	}
