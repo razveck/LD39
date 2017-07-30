@@ -7,8 +7,8 @@ public class Player : MonoBehaviour {
 	public float power;
 	public float powerLossPerSecond;
 
-	//prefabs
-	
+
+	//prefabs	
 	public GameObject minionPrefab;
 
 	void Awake() {
@@ -27,7 +27,7 @@ public class Player : MonoBehaviour {
 
 		//input
 		if(Input.GetKeyDown("1")) {
-			Instantiate(minionPrefab);
+			Instantiate(minionPrefab,Global.map.mapCenter, Quaternion.identity);
 		}
 	}
 }

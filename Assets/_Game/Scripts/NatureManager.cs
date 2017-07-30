@@ -5,21 +5,31 @@ using UnityEngine;
 public class NatureManager : MonoBehaviour {
 
 	public float powerThreshhold;
+	public float spawnCooldown;
+	float spawnTimer;
 
 	public GameObject heroPrefab;
 
 	void Awake() {
 		Global.natureManager = this;
+		spawnTimer = spawnCooldown;
 	}
 
-	public void Initialize() {
-		List<Tile> list = Global.map.tilesByPower;
-		GameObject root = new GameObject("Heroes");
-		for(int i = 0;i < list.Count;i++) {
-			if(list[i].power-1 > powerThreshhold) {
-				GameObject obj = Instantiate(heroPrefab,list[i].transform.position + Vector3.up * 20,Quaternion.identity,root.transform);
-				obj.GetComponent<Renderer>().material.SetColor("_EmissionColor", new Color(list[i].power-1/ powerThreshhold-1,list[i].power-1/ powerThreshhold-1,list[i].power-1/ powerThreshhold-1));
-			}
+	void Update() {
+		spawnTimer -= Time.deltaTime;
+		if(spawnTimer <= 0) {
+			SpawnHero();
+			spawnTimer = spawnCooldown;
 		}
+	}
+
+	void SpawnHero() {
+		int size = Global.map.terrainSize;
+		int x = Random.Range(0f,1f)==0?0:size-1;
+		int z = Random.Range(0f,1f) == 0 ? 0 : size - 1;
+		Vector3 pos = Global.map.grid[x,z].transform.position;
+		GameObject obj=Instantiate(heroPrefab,pos,Quaternion.identity);
+		//obj.GetComponent<UnityEngine.AI.NavMeshAgent>().nextPosition = obj.transform.position;
+	
 	}
 }

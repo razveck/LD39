@@ -9,6 +9,6 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void TerrainDoneCallback() {
-		Global.natureManager.Initialize();
+		Global.natureManager.enabled = true;
 	}
 }

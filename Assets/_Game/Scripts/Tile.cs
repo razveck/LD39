@@ -27,4 +27,14 @@ public class Tile : MonoBehaviour {
 			trees[i].transform.localScale = new Vector3((float)timer,(float)timer,(float)timer) * treeGrowthSpeed; ;
 		}
 	}
+
+	public void ChangePower(float change) {
+		power += change;
+		Color c = GetComponent<Renderer>().material.color;
+		c.r += change;
+		c.g += change;
+		c.b += change;
+
+		GetComponent<Renderer>().material.color = c;
+	}
 }
