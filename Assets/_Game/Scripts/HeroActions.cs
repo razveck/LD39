@@ -6,10 +6,11 @@ public class HeroActions:AIActions {
 
 	public float maxPowerPerTile;
 
-	public override IEnumerator ArrivedOnPowerNode() {
-		yield return StartCoroutine(DrainPower());
-		canMove = true;
-		LookForPower();
+	protected override void Start() {
+		base.Start();
+		SphereCollider col = gameObject.AddComponent<SphereCollider>();
+		col.radius = 5;
+		col.isTrigger = true;
 	}
 
 	protected override bool ShouldDrain() {
@@ -21,6 +22,10 @@ public class HeroActions:AIActions {
 	}
 
 	protected override void Attack(GameObject target) {
-		Destroy(target);
+		if(attackTimer <= 0) {
+			target.GetComponent<AIActions>().canAttack = false;
+			Destroy(target);
+			attackTimer = attackCooldown;
+		}
 	}
 }

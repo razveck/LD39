@@ -7,8 +7,13 @@ public class Player : MonoBehaviour {
 	public float power;
 	public float powerLossPerSecond;
 
+	public int minion1Cost;
+	public int minion2Cost;
+	public int minion3Cost;
 
-	//prefabs	
+	public UnityEngine.UI.Slider powerBar;
+
+	//prefabs
 	public GameObject minionDrainClosestPrefab;
 	public GameObject minionDrainHighestPrefab;
 	public GameObject minionPatrolPrefab;
@@ -19,23 +24,47 @@ public class Player : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
-		
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		power -= powerLossPerSecond * Time.deltaTime;
-
+		if(powerLossPerSecond<30)
+			powerLossPerSecond += Time.deltaTime*Time.deltaTime;
 		//input
 		if(Input.GetKeyDown("1")) {
-			Instantiate(minionDrainClosestPrefab,Global.map.mapCenter, Quaternion.identity);
+			SpawnMinion1();
 		}
 		if(Input.GetKeyDown("2")) {
-			Instantiate(minionDrainHighestPrefab,Global.map.mapCenter,Quaternion.identity);
+			SpawnMinion2();
 		}
 		if(Input.GetKeyDown("3")) {
-			Instantiate(minionPatrolPrefab,Global.map.mapCenter,Quaternion.identity);
+			SpawnMinion3();
 		}
+	}
+
+	public void LateUpdate() {
+		powerBar.value = power;
+	}
+
+	public void SpawnMinion1() {
+		if(power - minion1Cost < 0)
+			return;
+
+		Instantiate(minionDrainClosestPrefab,Global.map.mapCenter,Quaternion.identity);
+		power -= minion1Cost;
+	}
+	public void SpawnMinion2() {
+		if(power - minion2Cost < 0)
+			return;
+		Instantiate(minionDrainHighestPrefab,Global.map.mapCenter,Quaternion.identity);
+		power -= minion2Cost;
+	}
+	public void SpawnMinion3() {
+		if(power - minion3Cost < 0)
+			return;
+		Instantiate(minionPatrolPrefab,Global.map.mapCenter,Quaternion.identity);
+		power -= minion3Cost;
 	}
 }

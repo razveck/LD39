@@ -67,7 +67,7 @@ public class Map : MonoBehaviour {
 				GameObject obj= Instantiate(grassPrefab,new Vector3(startPoint+x*tileScale + tileScale, height, startPoint+z*tileScale + tileScale),Quaternion.identity, transform);
 				obj.transform.localScale = new Vector3(tileScale,tileScale* terrainAmplitude,tileScale);
 				//obj.GetComponent<Renderer>().material.SetColor("_Color",height<0? Color.white : terrainColorGradient.Evaluate(height/2));
-				obj.GetComponent<Renderer>().material.color=height < 0 ? Color.white : terrainColorGradient.Evaluate(height / 2);
+				obj.GetComponent<Renderer>().material.color=terrainColorGradient.Evaluate(height / 2);
 				grid[x,z] = obj.GetComponent<Tile>();
 			}
 		}
@@ -78,24 +78,15 @@ public class Map : MonoBehaviour {
 		for(int x = 0;x < terrainSize;x++) {
 			for(int z = 0;z < terrainSize;z++) {
 
-				float powerValue = noise.FractalNoise2D(x, z, 3, powerDensity, powerConcentration)+1; //x, y, oct, freq, amp
+				float powerValue = noise.FractalNoise2D(x, z, 3, powerDensity, powerConcentration); //x, y, oct, freq, amp
 
-				if(powerValue < 0) { //negative power doesn't make sense
-					powerValue = 0;
+				if(powerValue < 1) { //every tile must have power
+					powerValue = 1;
 				}
 
 				grid[x,z].power = powerValue;
 				tilesByPower.Add(grid[x,z]);
 			}
 		}
-		//@Do I need to sort?? Probably do...I guess. Maybe not, the AINavigation is sorting this depending on the type of agent
-		//tilesByPower.Sort((t1,t2) =>
-		//{
-		//	if(t1.power > t2.power)
-		//		return -1;
-		//	else
-		//		return 1;
-		//}
-		//);
 	}
 }

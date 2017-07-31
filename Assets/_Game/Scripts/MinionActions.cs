@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class MinionActions : AIActions {
 
+	protected override void Start() {
+		base.Start();
+		SphereCollider col = gameObject.AddComponent<SphereCollider>();
+		col.radius = 5;
+		col.isTrigger = true;
+	}
+
 	protected override bool ShouldDrain() {
 		return target.power >0;
 	}
@@ -15,6 +22,10 @@ public class MinionActions : AIActions {
 	}
 
 	protected override void Attack(GameObject target) {
-		Destroy(target);
+		if(attackTimer <= 0) {
+			target.GetComponent<AIActions>().canAttack = false;
+			Destroy(target);
+			attackTimer = attackCooldown;
+		}
 	}
 }

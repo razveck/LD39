@@ -54,19 +54,19 @@ public class CameraScript:MonoBehaviour {
 		if(panning)
 			return;
 
-		if(recDown.Contains(Input.mousePosition) || Input.GetKeyDown(KeyCode.DownArrow)) {
+		if(recDown.Contains(Input.mousePosition) || Input.GetKey(KeyCode.DownArrow)) {
 			Cursor.SetCursor(arrows[0],new Vector2(11,16),CursorMode.Auto);
 			moveDistance.z = -1;
 		}
-		if(recUp.Contains(Input.mousePosition) || Input.GetKeyDown(KeyCode.UpArrow)) {
+		if(recUp.Contains(Input.mousePosition) || Input.GetKey(KeyCode.UpArrow)) {
 			Cursor.SetCursor(arrows[1],new Vector2(11,0),CursorMode.Auto);
 			moveDistance.z = 1;
 		}
-		if(recLeft.Contains(Input.mousePosition) || Input.GetKeyDown(KeyCode.LeftArrow)) {
+		if(recLeft.Contains(Input.mousePosition) || Input.GetKey(KeyCode.LeftArrow)) {
 			Cursor.SetCursor(arrows[2],new Vector2(0,11),CursorMode.Auto);
 			moveDistance.x = -1;
 		}
-		if(recRight.Contains(Input.mousePosition) || Input.GetKeyDown(KeyCode.RightArrow)) {
+		if(recRight.Contains(Input.mousePosition) || Input.GetKey(KeyCode.RightArrow)) {
 			Cursor.SetCursor(arrows[3],new Vector2(16,11),CursorMode.Auto);
 			moveDistance.x = 1;
 		}

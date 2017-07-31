@@ -13,38 +13,45 @@ public class AIActions : MonoBehaviour {
 
 	public ActionType actionType;
 
-	//delegates depending on the type
+	//different methods depending on the type
 	delegate void GetDestination();
 	GetDestination getDest;
 	delegate void ArrivedOnDest();
 	ArrivedOnDest arrived;
 
-	public float drainPerSecond;
 	protected NavMeshAgent agent;
 	public Tile target;
+	public ParticleSystem particles;
+	Animator anim;
 
+	public float drainPerSecond;
 	public bool canMove;
 	public bool shouldSetTarget;
 
+	public float attackCooldown;
+	public float attackTimer;
+	public bool canAttack;
+
 	// Use this for initialization
-	void Start() {
+	protected virtual void Start() {
 		agent = GetComponent<NavMeshAgent>();
+		anim = GetComponent<Animator>();
 		if(actionType == ActionType.Patrol) {
 			getDest =Patrol;
 			arrived = PatrollerArrived;
-			SphereCollider col=gameObject.AddComponent<SphereCollider>();
-			col.radius = 5;
-			col.isTrigger = true;
 		} else {
+			particles = transform.GetChild(0).GetComponent<ParticleSystem>();
 			getDest=LookForPower;
 			arrived = DrainerArrived;
-			
 		}
 		getDest();
 	}
 
 	// Update is called once per frame
 	protected void Update() {
+		if(actionType == ActionType.Patrol) {
+			attackTimer -= Time.deltaTime;
+		}
 		if(agent.pathPending || agent.path.status!=NavMeshPathStatus.PathComplete)
 			return;
 
@@ -59,7 +66,10 @@ public class AIActions : MonoBehaviour {
 			return;
 
 		if(agent.remainingDistance < 0.01f) {
+			anim.SetBool("walking",false);
 			arrived();
+		} else {
+			anim.SetBool("walking",true);
 		}
 	}
 
@@ -74,15 +84,23 @@ public class AIActions : MonoBehaviour {
 	
 	public virtual IEnumerator ArrivedOnPowerNode() {
 		yield return StartCoroutine(DrainPower());
-		target.isTargeted = false;
+		var main = particles.main;
+		main.loop = false;
+		target.isTargeted = !shouldSetTarget;
 		canMove = true;
 		LookForPower();
 	}
 
 	protected virtual IEnumerator DrainPower() {
 		Debug.Log("DRAINING");
+		var main = particles.main;
+		main.loop = true;
+		particles.Play();
 		while(ShouldDrain()) {
 			target.ChangePower(-Time.deltaTime * drainPerSecond);
+			if(drainPerSecond > 0) {
+				Global.player.power += drainPerSecond * Time.deltaTime;
+			}
 			yield return null;
 		}
 	}
@@ -150,15 +168,16 @@ public class AIActions : MonoBehaviour {
 		throw new System.Exception();
 	}
 
-	void OnDrawGizmos() {
-		Gizmos.color = Color.red;
-		Gizmos.DrawSphere(agent.destination,1f);
-	}
+	//void OnDrawGizmos() {
+	//	Gizmos.color = Color.red;
+	//	Gizmos.DrawSphere(agent.destination,1f);
+	//}
 
 	void OnTriggerEnter(Collider other) {
 		//Debug.Log("Trigger called on "+name + " / "+actionType.ToString()+". Other is "+other.name+". Is it a trigger?...--->" + other.isTrigger);
 		if(other.isTrigger == false) {
-			Attack(other.gameObject);
+			if(canAttack)
+				Attack(other.gameObject);
 		}
 	}
 
