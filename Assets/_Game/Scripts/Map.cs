@@ -78,13 +78,13 @@ public class Map : MonoBehaviour {
 		for(int x = 0;x < terrainSize;x++) {
 			for(int z = 0;z < terrainSize;z++) {
 
-				float powerValue = noise.FractalNoise2D(x, z, 3, powerDensity, powerConcentration); //x, y, oct, freq, amp
+				float powerValue = noise.FractalNoise2D(x, z, 8, powerDensity, powerConcentration)/5; //x, y, oct, freq, amp
 
 				if(powerValue < 1) { //every tile must have power
 					powerValue = 1;
 				}
 
-				grid[x,z].power = powerValue;
+				grid[x,z].Initialize(powerValue);
 				tilesByPower.Add(grid[x,z]);
 			}
 		}

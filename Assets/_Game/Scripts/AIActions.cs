@@ -41,7 +41,7 @@ public class AIActions : MonoBehaviour {
 			arrived = PatrollerArrived;
 		} else {
 			particles = transform.GetChild(0).GetComponent<ParticleSystem>();
-			getDest=LookForPower;
+			getDest=LookForPower;			
 			arrived = DrainerArrived;
 		}
 		getDest();
@@ -50,7 +50,7 @@ public class AIActions : MonoBehaviour {
 	// Update is called once per frame
 	protected void Update() {
 		if(actionType == ActionType.Patrol) {
-			attackTimer -= Time.deltaTime;
+			attackTimer -= Time.smoothDeltaTime;
 		}
 		if(agent.pathPending || agent.path.status!=NavMeshPathStatus.PathComplete)
 			return;
@@ -83,23 +83,32 @@ public class AIActions : MonoBehaviour {
 	}
 	
 	public virtual IEnumerator ArrivedOnPowerNode() {
-		yield return StartCoroutine(DrainPower());
-		var main = particles.main;
+		//yield return StartCoroutine(DrainPower());
+		ParticleSystem.MainModule main = particles.main;
+		main.loop = true;
+		particles.Play();
+		while(ShouldDrain()) {
+			target.ChangePower(-Time.smoothDeltaTime * drainPerSecond);
+			if(drainPerSecond > 0) {
+				Global.player.power += drainPerSecond * Time.smoothDeltaTime;
+			}
+			yield return null;
+		}
+		//var main = particles.main;
 		main.loop = false;
-		target.isTargeted = !shouldSetTarget;
+		target.isTargeted = false;
 		canMove = true;
 		LookForPower();
 	}
 
 	protected virtual IEnumerator DrainPower() {
-		Debug.Log("DRAINING");
 		var main = particles.main;
 		main.loop = true;
 		particles.Play();
 		while(ShouldDrain()) {
-			target.ChangePower(-Time.deltaTime * drainPerSecond);
+			target.ChangePower(-Time.smoothDeltaTime * drainPerSecond);
 			if(drainPerSecond > 0) {
-				Global.player.power += drainPerSecond * Time.deltaTime;
+				Global.player.power += drainPerSecond * Time.smoothDeltaTime;
 			}
 			yield return null;
 		}

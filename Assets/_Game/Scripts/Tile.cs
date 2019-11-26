@@ -10,7 +10,8 @@ public class Tile : MonoBehaviour {
 	public GameObject treePrefab;
 	public List<GameObject> trees;
 	public float treeGrowthSpeed=0;
-	public float maxTreeSize = 5;
+	public float maxTreeSize;
+	public float maxTrees = 2;
 
 	public float treeTimer;
 
@@ -23,10 +24,10 @@ public class Tile : MonoBehaviour {
 
 	void Update() {
 
-		if(power >= 5) {
-			treeTimer -= Time.deltaTime;
+		if(power >= 5 && trees.Count<maxTrees) {
+			treeTimer -= Time.smoothDeltaTime;
 			if(treeTimer <= 0) {
-				trees.Add(Instantiate(treePrefab,new Vector3(transform.position.x + Random.Range(-2,3),transform.position.y,transform.position.z + Random.Range(-2,3)),Quaternion.identity,transform.parent));
+				trees.Add(Instantiate(treePrefab,new Vector3(transform.position.x + Random.Range(-2,3),transform.position.y,transform.position.z + Random.Range(-2,3)),Quaternion.AngleAxis(Random.Range(0,360),Vector3.up),transform.parent));
 				treeTimer = 60;
 			}
 		}
@@ -34,12 +35,11 @@ public class Tile : MonoBehaviour {
 		for(int i = 0;i < trees.Count;i++) {
 			Vector3 scale = trees[i].transform.localScale;
 
-			scale.x = Mathf.Clamp(scale.x,0,maxTreeSize);
-			scale.y = Mathf.Clamp(scale.x,0,maxTreeSize);
-			scale.z = Mathf.Clamp(scale.x,0,maxTreeSize);
-
-			scale *= 1 + Time.deltaTime * treeGrowthSpeed * (power > 0 ? 1 : -1);
-
+			scale *= 1 + Time.smoothDeltaTime * treeGrowthSpeed * (power > 0 ? 1 : -1);
+			if(scale.x < 0) {
+				Destroy(trees[i]);
+				maxTrees--;
+			}
 			scale.x = Mathf.Clamp(scale.x,0,maxTreeSize);
 			scale.y = Mathf.Clamp(scale.x,0,maxTreeSize);
 			scale.z = Mathf.Clamp(scale.x,0,maxTreeSize);
@@ -47,9 +47,12 @@ public class Tile : MonoBehaviour {
 		}
 	}
 
+	public void Initialize(float power) {
+		this.power = power;
+		maxTreeSize = power / 10;
+	}
+
 	public void ChangePower(float change) {
-		if(power <= 0)
-			return;
 		power += change;
 		Color c = GetComponent<Renderer>().material.color;
 		c.r = Mathf.Clamp(c.r+change,originalColor.r-0.5f,originalColor.r);

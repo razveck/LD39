@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class NatureManager : MonoBehaviour {
 
-	public float powerThreshhold;
 	public float spawnCooldown;
 	public float spawnTimer;
 
@@ -17,7 +16,7 @@ public class NatureManager : MonoBehaviour {
 	}
 
 	void Update() {
-		spawnTimer -= Time.deltaTime;
+		spawnTimer -= Time.smoothDeltaTime;
 		if(spawnTimer <= 0) {
 			SpawnHero();
 			spawnTimer = spawnCooldown;

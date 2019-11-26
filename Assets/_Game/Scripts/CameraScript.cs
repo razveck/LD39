@@ -22,8 +22,8 @@ public class CameraScript:MonoBehaviour {
 
 	// Use this for initialization
 	void Start() {
-		yMargin = Screen.height / 20;
-		xMargin = Screen.width / 20;
+		yMargin = Screen.height / 100;
+		xMargin = Screen.width / 100;
 		recDown = new Rect(0,0,Screen.width,yMargin);
 		recUp = new Rect(0,Screen.height - yMargin,Screen.width,yMargin);
 		recLeft = new Rect(0,0,xMargin,Screen.height);
@@ -45,6 +45,10 @@ public class CameraScript:MonoBehaviour {
 		} else if(moveDistance.magnitude==0){
 			Cursor.SetCursor(null, new Vector2(4,0), CursorMode.Auto);
 		}
+		Vector3 pos = transform.position;
+		pos.x = Mathf.Clamp(pos.x,-Global.map.terrainSize * Global.map.tileScale, 0);
+		pos.z = Mathf.Clamp(pos.z,-Global.map.terrainSize * Global.map.tileScale, 0);
+		transform.position = pos;
 
 		moveDistance = Vector3.zero;
 	}

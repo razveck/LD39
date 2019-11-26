@@ -29,9 +29,11 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		power -= powerLossPerSecond * Time.deltaTime;
+		power = Mathf.Clamp(power-powerLossPerSecond * Time.smoothDeltaTime,0,100);
+
+		
 		if(powerLossPerSecond<30)
-			powerLossPerSecond += Time.deltaTime*Time.deltaTime;
+			powerLossPerSecond = Time.timeSinceLevelLoad/30;
 		//input
 		if(Input.GetKeyDown("1")) {
 			SpawnMinion1();
