@@ -1,9 +1,7 @@
 fileFormatVersion: 2
 guid: d8d5e893b20bc58459d279fa2a214884
-timeCreated: 1501465364
-licenseType: Free
 ModelImporter:
-  serializedVersion: 19
+  serializedVersion: 22
   fileIDToRecycleName:
     100000: arm_L
     100002: arm_R
@@ -13,6 +11,12 @@ ModelImporter:
     100010: Icosphere
     100012: Icosphere_001
     100014: root
+    100016: arm.L
+    100018: arm.L_end
+    100020: arm.R
+    100022: arm.R_end
+    100024: head_end
+    100026: Icosphere.001
     400000: arm_L
     400002: arm_R
     400004: Armature
@@ -21,20 +25,47 @@ ModelImporter:
     400010: Icosphere
     400012: Icosphere_001
     400014: root
+    400016: arm.L
+    400018: arm.L_end
+    400020: arm.R
+    400022: arm.R_end
+    400024: head_end
+    400026: Icosphere.001
     2300000: Icosphere_001
+    2300002: Icosphere.001
     3300000: Icosphere_001
+    3300002: Icosphere.001
     4300000: Icosphere
     4300002: Icosphere_001
+    4300004: Icosphere.001
     7400000: Default Take
     7400002: ArmatureAction
     7400004: Guardian_Idle
     7400006: Guardian_Walk
     9500000: //RootNode
     13700000: Icosphere
+    2186277476908879412: ImportLogs
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Guardian_Antlers
+    second: {fileID: 2100000, guid: f0b6ff01e50515f4bbb9f5a1cb0e7d8f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Guardian_Body
+    second: {fileID: 2100000, guid: 88ed03c6c863e404986b5a3bea01a190, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: No Name
+    second: {fileID: 2100000, guid: d8f3794d714fbc44abd8878379c41a08, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -47,12 +78,15 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
       name: Guardian_Idle
@@ -148,13 +182,18 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    importVisibility: 0
     importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
@@ -164,6 +203,7 @@ ModelImporter:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
+    normalCalculationMode: 0
   importAnimation: 1
   copyAvatar: 0
   humanDescription:

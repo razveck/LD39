@@ -1,9 +1,7 @@
 fileFormatVersion: 2
 guid: 34dd8d2dd37129946a36ad9aa7e2f3b9
-timeCreated: 1501449257
-licenseType: Free
 ModelImporter:
-  serializedVersion: 19
+  serializedVersion: 22
   fileIDToRecycleName:
     100000: Armature
     100002: Cube
@@ -19,6 +17,13 @@ ModelImporter:
     100022: spine3
     100024: spine4
     100026: spine5
+    100028: leg1.L
+    100030: leg1.R
+    100032: leg2.L
+    100034: leg2.L_end
+    100036: leg2.R
+    100038: leg2.R_end
+    100040: spine5_end
     400000: Armature
     400002: Cube
     400004: hip
@@ -33,16 +38,31 @@ ModelImporter:
     400022: spine3
     400024: spine4
     400026: spine5
+    400028: leg1.L
+    400030: leg1.R
+    400032: leg2.L
+    400034: leg2.L_end
+    400036: leg2.R
+    400038: leg2.R_end
+    400040: spine5_end
     4300000: Cube
     7400000: Default Take
     7400002: Imp_Idle
     7400004: Imp_Walk
     9500000: //RootNode
     13700000: Cube
+    2186277476908879412: ImportLogs
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Imp
+    second: {fileID: 2100000, guid: 4d13355377aeccb4086fc36ad33036ca, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -55,12 +75,15 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
       name: Imp_Idle
@@ -180,13 +203,18 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    importVisibility: 0
     importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
@@ -196,6 +224,7 @@ ModelImporter:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
+    normalCalculationMode: 0
   importAnimation: 1
   copyAvatar: 0
   humanDescription:

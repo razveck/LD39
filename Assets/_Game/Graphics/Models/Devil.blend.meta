@@ -1,9 +1,7 @@
 fileFormatVersion: 2
 guid: 1c50c8a39e97c9345b621ef6afd3f4b0
-timeCreated: 1501461261
-licenseType: Free
 ModelImporter:
-  serializedVersion: 19
+  serializedVersion: 22
   fileIDToRecycleName:
     100000: Armature
     100002: Cone
@@ -19,6 +17,18 @@ ModelImporter:
     100022: wing3_R
     100024: wing4_L
     100026: wing4_R
+    100028: wing0.L
+    100030: wing0.R
+    100032: wing1.L
+    100034: wing1.R
+    100036: wing2.L
+    100038: wing2.R
+    100040: wing3.L
+    100042: wing3.R
+    100044: wing4.L
+    100046: wing4.L_end
+    100048: wing4.R
+    100050: wing4.R_end
     400000: Armature
     400002: Cone
     400004: //RootNode
@@ -33,15 +43,50 @@ ModelImporter:
     400022: wing3_R
     400024: wing4_L
     400026: wing4_R
+    400028: wing0.L
+    400030: wing0.R
+    400032: wing1.L
+    400034: wing1.R
+    400036: wing2.L
+    400038: wing2.R
+    400040: wing3.L
+    400042: wing3.R
+    400044: wing4.L
+    400046: wing4.L_end
+    400048: wing4.R
+    400050: wing4.R_end
     4300000: Cone
     7400000: Default Take
     7400002: Devil_Idle_Walk
     9500000: //RootNode
     13700000: Cone
+    2186277476908879412: ImportLogs
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Devil_Body
+    second: {fileID: 2100000, guid: cc53e47ed8ca0cb47a9e1a4226eacde8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Devil_Eyes
+    second: {fileID: 2100000, guid: d3053e0ded9c3c8478a610eb212f63dd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Devil_Mouth
+    second: {fileID: 2100000, guid: 9f543dfcc28ebb740936195561b01997, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Devil_Wings
+    second: {fileID: 2100000, guid: a5c799b83b8be104d94c0c20d4d2c20c, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -54,12 +99,15 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
       name: Devil_Idle_Walk
@@ -123,13 +171,18 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    importVisibility: 0
     importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
@@ -139,6 +192,7 @@ ModelImporter:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
+    normalCalculationMode: 0
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
